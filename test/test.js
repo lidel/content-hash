@@ -6,6 +6,7 @@ const contentHash = require('../src/index.js')
 const ipfs_CIDv0 = 'QmRAQB6YaCyidP37UdDnjFY5vQuiBrcqdyoW1CuDgwxkD4'
 const ipfs_CIDv1 = 'bafybeibj6lixxzqtsb45ysdjnupvqkufgdvzqbnvmhw2kf7cfkesy7r7d4'
 const ipfs_contentHash = 'e3010170122029f2d17be6139079dc48696d1f582a8530eb9805b561eda517e22a892c7e3f1f'
+const ipns_CIDv1 = 'k2k4r8kgnix5x0snul9112xdpqgiwc5xmvi8ja0szfhntep2d7qv8zz3'
 const ipns_CIDv0_contentHash = 'e5010172122029f2d17be6139079dc48696d1f582a8530eb9805b561eda517e22a892c7e3f1f'
 const ipns_peerID_B58 = '12D3KooWG4NvqQVczTrWY1H2tvsJmbQf5bbA3xGYXC4FM3wWCfE4'
 const ipns_libp2pKey_CIDv1 = 'k51qzi5uqu5dihst24f3rp2ej4co9berxohfkxaenbq1wjty7nrd5e9xp4afx1'
@@ -112,7 +113,11 @@ describe('content-hash', () => {
 			const actual = contentHash.getCodec(ipns_ED25519_contentHash);
 			actual.should.be.equal('ipns-ns');
 		});
-		it('should decode to CIDv1 with libp2p-key codec', () => {
+		it('should decode legacy PeerID to CIDv1 with libp2p-key codec', () => {
+			const actual = contentHash.decode(ipns_CIDv0_contentHash);
+			actual.should.be.equal(ipns_CIDv1);
+		});
+		it('should decode ED25519 to CIDv1 with libp2p-key codec', () => {
 			const actual = contentHash.decode(ipns_ED25519_contentHash);
 			actual.should.be.equal(ipns_libp2pKey_CIDv1);
 		});
